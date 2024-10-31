@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\MessageSent;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -16,9 +17,10 @@ Route::post('/create-token', function (Request $request) {
 });
 
 Route::get('/get-message', function () {
+    broadcast(new MessageSent(User::where('email', "mahmoud-bakheet@outlook.com")->first(), 'I can HEAR you'))->toOthers();
     return 'I can HEAR you';
 })->middleware('auth:sanctum');
 
 Route::get('/login', function () {
-    return 'you have to provided this email mahmoud-bakheet@outlook.com  to get your token ';
+    return 'you have to provided this email mahmoud-bakheet@outlook.com to get your token ';
 })->name("login");
